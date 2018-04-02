@@ -855,3 +855,44 @@ h1, h2, h3, h4 {
   background-color: #efbb39;
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
 }
+
+/**************************************************/
+/*              [Social Media]                    */
+/**************************************************/
+
+.social-media {
+  width: 500px;
+  background-color: rgba(255, 255, 255, 0.0);
+  font-size: 0.0vw;
+  border-radius: 5px;
+  background-clip: padding-box;
+}
+
+.social-media .big-center iframe {
+	position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    
+}
+
+.middleofeverything {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.social-media twitterwidget::shadow .Tweet-brand, .social-media twitterwidget::shadow .Tweet-actions {
+  display: none;
+}
+
+.timeline .stream { 
+	max-height: 640px !important;
+}
+
+#twitter-widget-0 {
+	max-height:640px !important;
+}
+

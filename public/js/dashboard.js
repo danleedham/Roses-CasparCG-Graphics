@@ -92,6 +92,13 @@ app.controller('AppCtrl', ['$scope', '$location',
             type: 'link',
             icon: 'green neuter',
         });
+        
+        $scope.menu.push({
+            name: 'Twitter',
+            url: '/twitter',
+            type: 'link',
+            icon: 'blue twitter',
+        });
     }
 ]);
 
@@ -150,6 +157,10 @@ app.config(['$routeProvider', 'localStorageServiceProvider',
             .when("/badminton", {
               templateUrl: '/admin/templates/badminton.tmpl.html',
               controller: 'badmintonCGController'
+            })
+            .when("/twitter", {
+              templateUrl: '/admin/templates/twitter.tmpl.html',
+              controller: 'twitterCGController'
             })
             .otherwise({redirectTo: '/general'});
     }
@@ -822,5 +833,27 @@ app.controller('badmintonCGController', ['$scope', 'socket',
         function getBadmintonData() {
             socket.emit("badminton:get");
         }
+    }
+]);
+
+app.controller('twitterCGController', ['$scope', 'socket',
+    function($scope, socket) {
+        socket.on("twitter", function (msg) {
+            $scope.twitter = msg;
+            $scope.twitter.scale = Number($scope.twitter.scalepc) / 100;
+        });
+
+        $scope.$watch('twitter', function() {
+            if ($scope.twitter) {
+                socket.emit("twitter", $scope.twitter);
+            } else {
+                gettwitterData();
+            }
+        }, true);
+
+        function gettwitterData() {
+            socket.emit("twitter:get");
+        }
+
     }
 ]);

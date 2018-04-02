@@ -17,6 +17,8 @@ var swimming = {order: ''};
 var grid = {headingcolor:"#BC204B", leftcolor: "#1f1a34", rightcolor:"#1f1a34"};
 var archery = {};
 var badminton = {match: "Badminton", player1: "Lancaster", player2: "York", game1: 0, game2:0, point1: 0, point2: 0 };
+var twitter = {tweet: "", pos: "middleofeverything", tweethtml: "", scale: 100};
+
 
 //Clock Functions
 var stopwatch = new Stopwatch();
@@ -198,7 +200,7 @@ io.on('connection', function(socket) {
         io.sockets.emit("swimming", swimming);
     });
 
-		/*
+	/*
  	 * 		Basketball
  	 */
  	socket.on("basketball", function(msg) {
@@ -206,7 +208,7 @@ io.on('connection', function(socket) {
  		io.sockets.emit("basketball", msg);
  	});
 
-  socket.on("basketball:get", function(msg) {
+    socket.on("basketball:get", function(msg) {
  		io.sockets.emit("basketball", basketball);
  	});
 
@@ -215,20 +217,32 @@ io.on('connection', function(socket) {
 		io.sockets.emit("archery", msg);
 	});
 
-		socket.on("archery:get", function(msg) {
-				io.sockets.emit("archery", archery);
-		});
+    socket.on("archery:get", function(msg) {
+            io.sockets.emit("archery", archery);
+    });
 
-		/*
-		* Badminton
-		*/
-		socket.on("badminton", function(msg) {
-	        badminton = msg;
-			io.sockets.emit("badminton", msg);
-		});
+    /*
+     *      Badminton
+     */
+    socket.on("badminton", function(msg) {
+        badminton = msg;
+        io.sockets.emit("badminton", msg);
+    });
 
     socket.on("badminton:get", function(msg) {
         io.sockets.emit("badminton", badminton);
+    });
+    
+    /*
+	 * 		Social Media
+	 */
+	socket.on("twitter", function(msg) {
+        twitter = msg;
+		io.sockets.emit("twitter", msg);
+	});
+
+    socket.on("twitter:get", function(msg) {
+        io.sockets.emit("twitter", twitter);
     });
 
 

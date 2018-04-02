@@ -1,0 +1,102 @@
+<div class="ui form segment">
+  <h2>Twitter</h2>
+
+   <div class="ui grid">
+       <div class="sixteen wide column">
+			<div class="fields">
+                <div class="ten wide field">
+                	<label>Post URL </label>
+					<input id=socialUrl type="text" placeholder="Tweet URL" ng-model="twitter.tweet">
+				</div>
+		
+				<div class="two wide field">
+						<label>&nbsp;</label>
+						<button id=resolve-tweet class="ui blue button">Preview </button>
+				</div>				
+				<div class="four wide field">
+						<label>Make live</label>
+						<checkbox ng-model="twitter.show" size="large" type="toggle"></checkbox>
+ 				</div>
+			</div>
+		</div>
+</div>
+   <div class="ui grid">
+       <div class="sixteen wide column">
+       		<div class="fields">
+       			<div class="four field">
+						<label>Tweet Location </label>
+						 <dropdown title="Tweet Location"  ng-model="twitter.pos">
+							<dropdown-group>bottom left</dropdown-group>
+							<dropdown-group>bottom right</dropdown-group>
+							<dropdown-group>bottom center</dropdown-group>
+							<dropdown-group>top center</dropdown-group>
+							<dropdown-group>middleofeverything</dropdown-group>
+						  </dropdown>
+				</div>
+				<div class="four field">
+						<label>Animation</label>
+						 <dropdown title="Animation Type"  ng-model="twitter.animate">
+							<dropdown-group>bouncy-slide-top</dropdown-group>
+							<dropdown-group>toggle</dropdown-group>
+							<dropdown-group>slide-down</dropdown-group>
+							<dropdown-group>bouncy-slide-down</dropdown-group>
+							<dropdown-group>spin-toggle</dropdown-group>
+							<dropdown-group>rotate-in</dropdown-group>
+						  </dropdown>
+				</div>
+ 			</div>
+ 		</div>
+  </div>
+  
+    <div class="ui grid">
+        <div class="four wide field">
+            <label>Scale Override (%)</label>
+            <input type="number" placeholder="Scale Override" ng-model="twitter.scalepc">	
+            <button class="ui red button" ng-click="twitter.scalepc = 100">
+                <i class="ban icon"></i>Reset
+            </button>
+        </div>	
+        <div class="four wide field">
+            <label>Simplify Output</label>
+            <checkbox ng-model="twitter.hidemedia" size="large" type="toggle"></checkbox>
+        </div>
+  </div>							
+<br>
+<div class="ui divider"></div>
+
+<br>
+<div class="ui grid">
+<div class="four wide column center"> </div>  
+<div class="eight wide column center">
+    <div id=tweet_details></div>
+</div>
+<div class="four wide column center"> </div>  	
+</div>
+        
+<script>
+
+    $(document).ready(function() {
+      $("#resolve-tweet").click(function() {
+        var url = $("#socialUrl").val();
+        var caption = $("#socialCaption").val();		
+        
+        oEmbedUrl = 'https://api.twitter.com/1/statuses/oembed.json?url=';
+            
+        if (url == "") {
+          $(".controls").addClass("error");
+        } else {
+          $("#tweet_div").show();
+          $.ajax({
+            url: oEmbedUrl + url,
+            dataType: "jsonp",
+            success: function(data) {
+              $('#tweet_details').html(data.html);
+            }
+          });
+        }
+      })
+    })
+</script>
+
+
+   

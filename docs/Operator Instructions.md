@@ -74,3 +74,6 @@ Yet to get working
  #### Scoring
  Badminton is scored as 'first to 21 if you also have a two point lead'. The person who scores the 30th point wins, if it gets that far. It's best of 3 games.
  To use the graphics, it is recommended to HIDE the score when you change the Game counter and reset the POINTS counter. This is just to hide the jumpiness!
+
+## Social Media
+### Twitter 
