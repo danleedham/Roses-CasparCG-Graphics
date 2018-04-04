@@ -320,7 +320,7 @@
         
          <div ng-controller="twitterCtrl">
 			<div id="twitter" my-directive class="{{twitter.pos}} social-media">
-				<div ng-bind-html="tweetHTML" class="{{twitter.animate}} tweetcontent" style="-webkit-transform:scale({{twitter.scale}});" ng-show="twitter.show"></div>
+				<div ng-bind-html="tweetHTML" class="{{twitter.animate}} tweetcontent" style="-webkit-transform:scale({{twitter.scale}}); transform-origin:{{twitter.pos}};" ng-show="twitter.show"></div>
 			</div>
         </div>
 
@@ -329,7 +329,6 @@
         <script type="text/javascript" src="/js/libs/angular-animate.min.js"></script>
         <script type="text/javascript" src="/js/ng-socket-io.js"></script>
         <script type="text/javascript" src="/js/cg.js"></script>
-        <script async src="http://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
     </body>
 </html>
