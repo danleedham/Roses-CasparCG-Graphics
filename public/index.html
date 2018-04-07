@@ -13,7 +13,7 @@
         <div ng-controller="bugCtrl">
             <div class="wrapper slide-left">
                  <div class="bug top scale-fade-in" ng-show="state.showClock">
-                        <h1 class="black">{{clock | date: "HH:mm"}}</h1>
+                    <h1 class="black">{{clock | date: "HH:mm"}}</h1>
                  </div>
                  <div class="bug top scale-fade-in" ng-show="state.showLive">
                  <h1 ng-show="state.showLive">{{bug.livetext}}</h1>
@@ -64,7 +64,7 @@
                     <div class="float-left">
                         <h4>{{boxing.name1}}</h4>
                         <h1>{{boxing.lancScore}}</h1>
-                        <h2>LANC</h2>
+                        <h2>LAN</h2>
                     </div>
 
                     <div class="float-right">
@@ -86,16 +86,16 @@
         <div ng-controller="scoringCtrl">
         		<img ng-src="images/YorkSport250.png" ng-show="showScore" class="bottom leftLogo scale-fade"/>
 				<img ng-src="images/LancasterSport250.png" ng-show="showScore" class="bottom rightLogo scale-fade"/>
-            	<div ng-show="showScore" class="center bottom total-score scale-fade" >
-            		<h1>Overall Score</h1>
+            	<div ng-show="showScore" class="center bottom total-score scale-fade shadow" >
+            		<div class="shadow">
+            		    <h1 class="shadow">Roses 2018</h1>
+            		</div>
 
 					<div class="float-left york">
-					YORK
 					<p>{{yorkScore}}</p>
 					</div>
 
 					<div class="float-right lanc">
-					LANCS
 					<p>{{lancScore}}</p>
 					</div>
 
@@ -103,11 +103,11 @@
             	</div>
         </div>
 
-        <div ng-controller="footballCtrl" class="football left top scale-fade" ng-show="football.show">
+        <div ng-controller="footballCtrl" class="football left top scale-fade shadow" ng-show="football.show">
             <div class="row">
                 <div class="clock">{{clock}}</div>
-                <div class="score lanc">LANCS {{football.lancScore}}</div>
-                <div class="score york">{{football.yorkScore}} YORK</div>
+                <div class="score lanc">LAN {{football.lancScore}}</div>
+                <div class="score york">{{football.yorkScore}} YRK</div>
             </div>
             	<div ng-show="football.showextratime" class="extratime scale-fade">ET</div>
         </div>
@@ -116,20 +116,18 @@
         		<img ng-src="images/YorkSport250.png" ng-show="football.showpost" class="bottom leftLogo scale-fade"/>
 				<img ng-src="images/LancasterSport250.png" ng-show="football.showpost" class="bottom rightLogo scale-fade"/>
             	<div ng-show="football.showpost" class="center bottom football-score scale-fade" >
-            		<div class="footballtop">
+            		<div class="footballtop shadow">
             			<h1 ng-show="football.showtop">{{football.matchname}}</h1>
 					</div>
 					<div class="float-left york">
-						YORK
 						<p>{{football.yorkScore}}</p>
 					</div>
 
 					<div class="float-right lanc">
-						LANCS
 						<p>{{football.lancScore}}</p>
 					</div>
 	              	<div class="clearfix"></div>
-	              	<div class="footballbottom">
+	              	<div class="footballbottom shadow">
 	              		<h1 ng-show="football.showbottom">{{football.starttime}}</h1>
 	              	</div>	
             	</div>
@@ -139,7 +137,7 @@
         		<img ng-src="images/YorkSport250.png" ng-show="football.showpre" class="bottom leftLogo scale-fade"/>
 				<img ng-src="images/LancasterSport250.png" ng-show="football.showpre" class="bottom rightLogo scale-fade"/>
             	<div ng-show="football.showpre" class="center bottom football-score scale-fade" >
-            		<div class="footballtop">
+            		<div class="footballtop shadow">
             			<h1 class="upper" ng-show="football.showtop">{{football.matchname}}</h1>
             		</div>
 					<div class="float-left york">
@@ -150,7 +148,7 @@
 					LANCS
 					</div>
 					<div class="clearfix"></div>
-					<div class="footballbottom">
+					<div class="footballbottom shadow">
 						<h1 ng-show="football.showbottom">{{football.starttime}}</h1>
 					</div>
                 	<div class="clearfix"></div>
@@ -158,17 +156,17 @@
         </div>
                 
         
-        <div ng-controller="rugbyCtrl" class="football left top scale-fade" ng-show="rugby.show">
+        <div ng-controller="rugbyCtrl" class="football left top scale-fade shadow" ng-show="rugby.show">
             <div class="row">
                 <div class="clock">{{clock}}</div>
-                <div class="score lanc">LANCS {{rugby.lancScore}}</div>
-                <div class="score york">{{rugby.yorkScore}} YORK</div>
+                <div class="score lanc">LAN {{rugby.lancScore}}</div>
+                <div class="score york">{{rugby.yorkScore}} YRK</div>
             </div>
             	<div ng-show="rugby.showextratime" class="extratime scale-fade">ET</div>
         </div>
 
         
-        <div ng-controller="basketballCtrl" class="basketball left top scale-fade" ng-show="basketball.show">
+        <div ng-controller="basketballCtrl" class="basketball left top scale-fade shadow" ng-show="basketball.show">
             <div class="row">
                 <div class="clock">{{clock}}</div>
                 <div class="score lanc">LANCS {{basketball.lancScore}}</div>
@@ -176,7 +174,7 @@
             </div>
         </div>
 
-        <div ng-controller="dartsCtrl" class="right bottom darts scale-fade" ng-show="darts.show">
+        <div ng-controller="dartsCtrl" class="right bottom darts scale-fade shadow" ng-show="darts.show">
             <div class="row header">
                 <div class="name">{{darts.match}}&nbsp;</div>
                 <div class="set">SETS</div>
@@ -235,10 +233,8 @@
 
         <div ng-controller="gridCtrl">
           <div class="center-page scale-fade" ng-show="show">
-            <div class="grid center" style="margin-top: 20px; position: absolute;" >
-              <div class="gradient-overlay">
+            <div class="grid center shadow" style="margin-top: 20px; position: absolute;" >
                 <h1 style="background-color: {{grid.headingcolor}} !important;">{{ grid.header }}</h1>
-              </div>
 
               <div class="row animate-repeat" ng-repeat="row in grid.rows">
                 <div style="background-color: {{grid.leftcolor}} !important;" class="gridleft float-left">{{ row.left }}</div>

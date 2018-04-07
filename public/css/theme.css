@@ -29,6 +29,9 @@ h1, h2, h3, h4 {
     font-size: 40px !important;
 }
 
+.shadow {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 /**************************************************/
 /*              [Layout]                          */
 /**************************************************/
@@ -89,35 +92,42 @@ h1, h2, h3, h4 {
 .row:after {
   clear: both;
 }
+
+
 /**************************************************/
 /*              [Lower Third]                     */
 /**************************************************/
 
 .lowerthird {
-    min-width: 20%;
-    border-radius: 5px;
+    min-width: 17.5%;
     background-clip: padding-box;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .lowerthird h1 {
     color: #fff;
-    font-size: 40px;
-    font-size: 2.5vw;
-    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 600;
     padding: 5px 8px;
-    background-color: #BC204B;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
+    background-color: #1f1a34;
+}
+
+.lowerthird h1:empty {
+    display: none;
 }
 
 .lowerthird h2 {
-    color: #fff;
-    font-size: 35px;
-    font-size: 2vw;
+    color: #1f1a34;
+    font-size: 18px;
     font-weight: normal;
     padding: 5px 8px;
+    background-color: #f2f2f2;
+    border-bottom: 3px solid #1f1a34;
+}
 
-    background-color: #1f1a34;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
+.lowerthird h2:empty {
+    display: none;
 }
 
 .lowerthird.bottom.fullwidth {
@@ -192,21 +202,17 @@ h1, h2, h3, h4 {
     display:inline;
     white-space: nowrap;
     clear:none;
-    background-color: rgba(0, 0, 0, 0.5);
-    background-clip: padding-box;
+    background-color: #1f1a34;
 }
 
 .bug h1 {
     color: #fff;
-    font-size: 30px;
-    font-size: 1.55vw;
-    line-height: 1.8vw;
-    font-weight: normal;
+    font-size: 18px;
+    line-height: 20px;
     float: left;
     padding: 3px 10px;
     margin-right: 0px;
     background-color: #BC204B;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
 }
 
 .bug h1:empty {
@@ -215,13 +221,11 @@ h1, h2, h3, h4 {
 
 .black {
     background-color: #1f1a34 !important;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
 }
 
 .white {	
-	background-color: #eee !important;
-	color: #000 !important;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
+	background-color: #f2f2f2 !important;
+	color: #1f1a34 !important;
 }
 /**************************************************/
 /*              [Logo]                            */
@@ -251,35 +255,33 @@ h1, h2, h3, h4 {
 }
 
 .total-score h1 {
-    color: #000;
-    font-size: 35px;
-    font-size: 2vw;
+    color: #1f1a34;
+    font-size: 20px;
     padding: 6px;
     text-transform: uppercase;
-    background-color: #eee !important;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
+    background-color: #f2f2f2 !important;
 }
 
 .total-score .lanc, .football-score .lanc {
     display: block;
     width: 50%;
-    font-size: 40px;
-    font-size: 2.5vw;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 50px;
     color: #fff;
     padding: 6px;
     background-color: #cd1d18;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
 }
 
 .total-score .york, .football-score .york {
     display: block;
     width: 50%;
-    font-size: 40px;
-    font-size: 2.5vw;
-    color: #000 ;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 50px;
+    color: #000;
     padding: 6px;
     background-color: #efbb39 !important;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
 }
 
 
@@ -306,27 +308,24 @@ h1, h2, h3, h4 {
 /**************************************************/
 
 .football {
-  width: 30%;
-  border-radius: 3px;
+  width: 25%;
   background-clip: padding-box;
-  font-size: 30px;
-  font-size: 1.8vw;
+  font-size: 20px;
   text-align: center;
+  line-height: 24px;
 }
 
 .football-score h1 {
-    font-size: 18px;
     padding: 6px;
     padding-left: 58px !important;
     padding-right: 44px !important;
     text-transform: uppercase;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
 }
 
 .footballtop h1 {
 	color: #000;
-	border-bottom: 3px solid white;
-	background-color: #eee !important;
+	background-color: #f2f2f2 !important;
+	line-height: 24px;
 }
 
 .footballtop h1:empty {
@@ -335,8 +334,8 @@ h1, h2, h3, h4 {
 
 .footballbottom h1 {
 	color: #fff;
-	border-top: 3px solid white;
 	background-color: #1f1a34 !important;
+	line-height: 24px;
 }
 
 .footballbottom h1:empty {
@@ -351,14 +350,12 @@ h1, h2, h3, h4 {
 
 .football .clock {
   background-color: #eee;
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
   width: 24%;
 }
 
 .football .extratime {
   background-color: #bc204b;;
-  color: #fff;
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
+  color: #fff;;
   width: 12%;
   padding: 3px;
   margin-left: 23px; 
@@ -368,7 +365,6 @@ h1, h2, h3, h4 {
   width: 38%;
   color: #fff;
   background-color: #cd1d18;
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
 }
 
 .football .score.lanc p {
@@ -379,7 +375,6 @@ h1, h2, h3, h4 {
   width: 38%;
   color: #000;
   background-color: #efbb39;
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
 }
 
 /**************************************************/
@@ -390,8 +385,7 @@ h1, h2, h3, h4 {
   width: 35%;
   background-color: #1f1a34;
   text-align: center;
-  font-size: 25px;
-  font-size: 1.8vw;
+  font-size: 20px;
   border-radius: 5px;
   background-clip: padding-box;
 }
@@ -403,8 +397,7 @@ h1, h2, h3, h4 {
 
 .darts .name, .darts .legs, .darts .score, .darts .leg, .darts .footer, .darts .set, .darts .sets {
   float: left;
-  line-height: 40px;
-  line-height: 2.9vw;
+  line-height: 28px;
 
   padding-left: 5px;
   padding-right: 5px;
@@ -417,36 +410,31 @@ h1, h2, h3, h4 {
 .darts .name.lanc {
   color: #fff;
   background-color: #cd1d18;
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
 }
 
 .darts .name.york {
   color: #fff;
   background-color: #efbb39;
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
 }
 
 .darts .legs {
   width: 13%;
-  color: #fff;
-  background-color: #BC204B;
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
-  border-left: 2px solid #fff;
+  color: #1f1a34;
+  background-color: #f2f2f2;
+  border-left: 2px solid #f2f2f2;
 }
 
 .darts .sets {
   width: 13%;
-  color: #fff;
-  background-color: #BC204B;
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
+  color: #1f1a34;
+  background-color: #f2f2f2;
   border-left: 2px solid #fff;
 }
 
 .darts .score {
   width: 17%;
   color: #fff;
-  background-color: #BC204B;
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
+  background-color: #1f1a34;
   border-left: 2px solid #fff;
 }
 
@@ -624,7 +612,7 @@ h1, h2, h3, h4 {
 }
 
 /**************************************************/
-/*                [Tennis]                     */
+/*                [Tennis]                        */
 /**************************************************/
 
 
@@ -736,48 +724,45 @@ h1, h2, h3, h4 {
  *===================================
  */
  .grid {
-
     width: 650px;
     text-align: center;
     background-clip: padding-box;
   }
-    .grid h1 {
-        color:  #ffffff;
-        font-size: 40px;
-        font-size: 2.5vw;
-        font-weight: normal;
-        padding: 5px;
-        background-color: #BC204B;
-        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
-    }
+.grid h1 {
+    color:  #ffffff;
+    font-size: 24px;
+    font-weight: normal;
+    padding: 5px;
+    background-color: #1f1a34;
+}
 
-    .grid .gridleft, .grid .gridright {
-        float: left;
-        line-height: 40px;
-        background-color: #1f1a34;
-        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 51%, rgba(0, 0, 0, 0.04));
-        font-size: 25px;
-    }
+.grid .gridleft, .grid .gridright {
+    float: left;
+    line-height: 24px;
+    background-color: #f2f2f2;
+    font-size: 18px;
+    color: #1f1a34;
+}
 
-    .grid .gridleft {
-        padding-left: 10px;
-        text-align: left;
-        width: 80%;
-    }
+.grid .gridleft {
+    padding-left: 10px;
+    text-align: left;
+    width: 80%;
+}
 
-    .grid .gridright {
-        width: 20%;
-        border-left: 3px solid #fff;
-    }
+.grid .gridright {
+    width: 20%;
+    border-left: 3px solid #fff;
+}
 
-    .grid .row {
-        color: #fff;
-        border-top: 3px solid #fff;
-    }
+.grid .row {
+    color: #fff;
+    border-top: 3px solid #fff;
+}
 
-    .grid .row:last-child {
-        margin-bottom: 5px;
-    }
+.grid .row:last-child {
+    border-bottom: 3px solid #1f1a34;
+}
 
 
 /**************************************************/
