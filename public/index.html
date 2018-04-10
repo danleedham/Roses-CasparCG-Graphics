@@ -11,15 +11,15 @@
 
     <body>
         <div ng-controller="bugCtrl">
-            <div class="wrapper slide-left">
+            <div class="slide-left">
                  <div class="bug top scale-fade-in" ng-show="state.showClock">
-                    <h1 class="black">{{clock | date: "HH:mm"}}</h1>
+                    <h1 class="black shadow">{{clock | date: "HH:mm"}}</h1>
                  </div>
                  <div class="bug top scale-fade-in" ng-show="state.showLive">
-                 <h1 ng-show="state.showLive">{{bug.livetext}}</h1>
+                 <h1 class="shadow" ng-show="state.showLive">{{bug.livetext}}</h1>
                  </div>
                  <div class="bug top scale-fade-in" ng-show="state.showLocation">
-                 <h1 class="white" ng-show="state.showLocation">{{bug.locationtext}}</h1></div>
+                 <h1 class="white shadow" ng-show="state.showLocation">{{bug.locationtext}}</h1></div>
                 </div>
 
                 <div class="logo right top toggle" ng-show="state.showLogo">
@@ -78,21 +78,21 @@
         </div>
 
         <div ng-controller="scoringCtrl">
-        		<img ng-src="images/YorkSport250.png" ng-show="showScore" class="bottom leftLogo scale-fade"/>
-				<img ng-src="images/LancasterSport250.png" ng-show="showScore" class="bottom rightLogo scale-fade"/>
+        		<img ng-src="images/LancasterSport250.png" ng-show="showScore" class="bottom leftLogo scale-fade"/>
+				<img ng-src="images/YorkSport250.png" ng-show="showScore" class="bottom rightLogo scale-fade"/>
             	<div ng-show="showScore" class="center bottom total-score scale-fade shadow">
             		<div class="shadow">
             		    <h1 class="shadow">Roses 2018</h1>
             		</div>
 
-					<div class="float-left york">
-					<p>{{yorkScore}}</p>
-					</div>
-
-					<div class="float-right lanc">
+					<div class="float-left lanc">
 					<p>{{lancScore}}</p>
 					</div>
 
+					<div class="float-right york">
+					<p>{{yorkScore}}</p>
+					</div>
+	
                 	<div class="clearfix"></div>
             	</div>
         </div>
@@ -107,18 +107,18 @@
         </div>
 
         <div ng-controller="footballCtrl" ng-show="football.showpost">
-        		<img ng-src="images/YorkSport250.png" ng-show="football.showpost" class="bottom leftLogo scale-fade"/>
-				<img ng-src="images/LancasterSport250.png" ng-show="football.showpost" class="bottom rightLogo scale-fade"/>
+        		<img ng-src="images/LancasterSport250.png" ng-show="football.showpost" class="bottom leftLogo scale-fade"/>
+				<img ng-src="images/YorkSport250.png" ng-show="football.showpost" class="bottom rightLogo scale-fade"/>
             	<div ng-show="football.showpost" class="center bottom football-score scale-fade" >
             		<div class="footballtop shadow">
             			<h1 ng-show="football.showtop">{{football.matchname}}</h1>
 					</div>
-					<div class="float-left york">
-						<p>{{football.yorkScore}}</p>
+					<div class="float-left lanc">
+						<p>{{football.lancScore}}</p>
 					</div>
 
-					<div class="float-right lanc">
-						<p>{{football.lancScore}}</p>
+					<div class="float-right york">
+						<p>{{football.yorkScore}}</p>
 					</div>
 	              	<div class="clearfix"></div>
 	              	<div class="footballbottom shadow">
@@ -128,18 +128,18 @@
         </div>
         
         <div ng-controller="footballCtrl" ng-show="football.showpre">
-        		<img ng-src="images/YorkSport250.png" ng-show="football.showpre" class="bottom leftLogo scale-fade"/>
-				<img ng-src="images/LancasterSport250.png" ng-show="football.showpre" class="bottom rightLogo scale-fade"/>
+        		<img ng-src="images/LancasterSport250.png" ng-show="football.showpre" class="bottom leftLogo scale-fade"/>
+				<img ng-src="images/YorkSport250.png" ng-show="football.showpre" class="bottom rightLogo scale-fade"/>
             	<div ng-show="football.showpre" class="center bottom football-score scale-fade" >
             		<div class="footballtop shadow">
             			<h1 class="upper" ng-show="football.showtop">{{football.matchname}}</h1>
             		</div>
-					<div class="float-left york">
-					YORK
+					<div class="float-left lanc">
+					LANCS
 					</div>
 
-					<div class="float-right lanc">
-					LANCS
+					<div class="float-right york">
+					YORK
 					</div>
 					<div class="clearfix"></div>
 					<div class="footballbottom shadow">
