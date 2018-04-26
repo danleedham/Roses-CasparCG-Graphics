@@ -1,8 +1,10 @@
 var app = angular.module('cgApp', ['ngAnimate', 'socket-io']);
 
 // Top Right General Info
-app.controller('topRightCtrl', ['$scope', '$timeout', 'socket',
-    function($scope, $timeout, socket){
+app.controller('topRightCtrl', ['$scope', '$timeout', 'socket', '$http', '$interval',
+    function($scope, $timeout, socket, $http, $interval){
+        $scope.yorkWidth = "50%";
+        $scope.lancsWidth = "50%";
         $scope.tickInterval = 1000; //ms
         socket.on("topRight", function (msg) {
             $scope.topRight = msg;
@@ -16,6 +18,49 @@ app.controller('topRightCtrl', ['$scope', '$timeout', 'socket',
         // Start the timer
         $timeout(tick, $scope.tickInterval);
         tick();
+
+        $scope.tickInterval = 10000;
+        $scope.yorkWidth = "50%";
+        $scope.lancsWidth = "50%";
+
+        var fetchScore = function () {
+          var config = {headers:  {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            }
+          };
+
+        $http.get('https://roseslive.co.uk/score.json', config)
+            .success(function(data) {
+                if(isNaN(data.york) || isNaN(data.lancs)){
+                    console.log("Roses live is giving us nonsense");
+                    $scope.yorkWidth = "0%";
+                    $scope.lancsWidth = "0%";
+                    return;
+                };
+                var yorkScore = data.york;
+                $scope.yorkScore = yorkScore;
+                var lancScore = data.lancs;
+                $scope.lancsScore = lancScore;
+                var totalScore = parseInt(yorkScore) + parseInt(lancScore);
+                if(totalScore == 0){
+                    $scope.yorkWidth = "50%";
+                    $scope.lancsWidth = "50%";
+                } else {
+                    var yorkWidth = yorkScore / totalScore;
+                    var lancsWidth = lancScore / totalScore;
+
+                    $scope.yorkWidth = (parseFloat(yorkWidth)*100).toFixed(2) + "%";
+                    $scope.lancsWidth = (parseFloat(lancsWidth)*100).toFixed(2) + "%"; 
+                }
+            }
+            );
+        };
+
+        //Intial fetch
+        fetchScore();
+        // Start the timer
+        $interval(fetchScore, $scope.tickInterval);
     }
 ]);
 
@@ -56,12 +101,28 @@ app.controller('bottomRightCtrl', ['$scope', '$interval', '$http', 'socket',
                 } else {
                     var boardcast = "";
                 }
-
+                
+                $scope.bottomRight.limitToToday = msg.limitToToday;
+                $scope.bottomRight.showEventScores = msg.showEventScores;
+                if(msg.header !== ""){
+                    $scope.bottomRight.header = msg.header;
+                    $scope.bottomRight.showUserHeader = true;
+                } else {
+                    $scope.bottomRight.showUserHeader = false;
+                }
                 updateFixtures(location,sport,group,broadcast);
             }
         }, true);
 
-        socket.on("bottomRightshowAllFixtures", function(){
+        socket.on("bottomRightshowAllFixtures", function(msg){
+            $scope.bottomRight.limitToToday = msg.limitToToday;
+            $scope.bottomRight.showEventScores = msg.showEventScores;
+            if(msg.header !== ""){
+                $scope.bottomRight.header = msg.header;
+                $scope.bottomRight.showUserHeader = true;
+            } else {
+                $scope.bottomRight.showUserHeader = false;
+            }
             updateFixtures();
         }, true);
            
@@ -87,7 +148,7 @@ app.controller('bottomRightCtrl', ['$scope', '$interval', '$http', 'socket',
                 broadcast = undefined;
             }
 
-            if(location !== undefined || sport !== undefined || group !== undefined || broadcast !== undefined){
+            if($scope.bottomRight.limitToToday !== undefined || location !== undefined || sport !== undefined || group !== undefined || broadcast !== undefined || $scope.limitToToday == true){
                 $scope.bottomRight.overrideCheck = true; 
             } else {
                 $scope.bottomRight.overrideCheck = false;
@@ -97,9 +158,11 @@ app.controller('bottomRightCtrl', ['$scope', '$interval', '$http', 'socket',
                 var config = { headers:  {
                   'Accept': 'application/json',
                   'Content-Type': 'application/json',
-                }
-            };
-            
+                    }
+                };
+                
+                var todaysDate = new Date();
+
             $http.get('/data/timetable_entries_example.json', config).then(function (response) {
                    
                     var daysOfWeek = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -110,7 +173,7 @@ app.controller('bottomRightCtrl', ['$scope', '$interval', '$http', 'socket',
                     var fixturesFileUpdated = new Date(response.headers('Last-Modified'));
                                         
                     if(fixturesFileUpdated > $scope.bottomRight.fixturesFileUpdated || $scope.bottomRight.overrideCheck == true) {
-                        console.log("Fixtures file updated");
+                        // console.log("Fixtures file updated");
                         $scope.bottomRight.fixturesFileUpdated = fixturesFileUpdated;
                         var newLivebottomRight = {"rows" : []}; 
                     
@@ -134,13 +197,21 @@ app.controller('bottomRightCtrl', ['$scope', '$interval', '$http', 'socket',
                             buildArray["sport"] = response.data[i].team.sport.title;
                             buildArray["time"] = strTime; 
                             buildArray["day"] = day;
+                            buildArray["dateTime"] = dateTime;
                             buildArray["group"] = response.data[i].team.title;
                             buildArray["location"] = response.data[i].location.name;
                             buildArray["broadcast"] = response.data[i].la1tv_coverage_level;
                             buildArray["points"] = response.data[i].point.amount;
+                            
+                            
+                            if($scope.bottomRight.limitToToday == true && dateTime.setHours(0,0,0,0) !== todaysDate.setHours(0,0,0,0)){
+                                var isValidDay = false;
+                            } else {
+                                var isValidDay = true;
+                            }
 
                             if($scope.bottomRight.overrideCheck == true){
-                                if((buildArray["location"] == location || location == "All") && (buildArray["sport"] == sport || sport == "All" ) && (buildArray["group"] == group || group == "All") && (buildArray["broadcast"] == broadcast || broadcast == "All")){
+                                if((isValidDay == true) || ((buildArray["location"] == location || location == "All") && (buildArray["sport"] == sport || sport == "All" ) && (buildArray["group"] == group || group == "All") && (buildArray["broadcast"] == broadcast || broadcast == "All"))){
                                     newLivebottomRight["rows"].push(buildArray);    
                                 }
                             } else {
@@ -221,10 +292,9 @@ app.controller('bottomRightCtrl', ['$scope', '$interval', '$http', 'socket',
 app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sce',
     function($scope, $interval, $http, socket, $sce){
         var momentsCheckTickInterval = 63000; // Allow this to be set
-        var momentsSwapTickInterval = 6000;  // Allow this to be set 
+        var momentsSwapTickInterval = 10000;  // Allow this to be set 
         $scope.bottomLeft = { momentOverride: false, overrideHeader: "", overrideText:"", ignoreMoments: [] };        
-        $scope.moments = {"rows":[]};
-        $scope.latestMomentId = "";
+        $scope.moments = {"rows":[], "momentsFileUpdated" : ""};
  
         socket.on("pleaseSendMoments", function(){
             if($scope.moments !== undefined){
@@ -293,27 +363,31 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
                 console.log("Roses live is giving us nonsense");
                 return;
               } else { 
-                 
-                 // Sort Array so we're getting the most recent content 
-                 response.data.sort(function(a, b){
+
+                var momentsFileUpdated = new Date(response.headers('Last-Modified'));
+                // Check to see if the file has updated
+                if(momentsFileUpdated > $scope.moments.momentsFileUpdated){
+                   console.log("We got new moments!");
+                   
+                // Sort Array so we're getting the most recent content 
+                response.data.sort(function(a, b){
                     var keyA = new Date(a.updated_at),
                         keyB = new Date(b.updated_at);
                     // Compare the 2 dates
-                    if(keyA < keyB) return -1;
-                    if(keyA > keyB) return 1;
+                    if(keyA < keyB) return 1;
+                    if(keyA > keyB) return -1;
                     return 0;
                 });
-                
-                var momentsFileUpdated = new Date(response.headers('Last-Modified'));
-                // Check the latest moment's ID
-                if($scope.latestMomentId !== response.data[0].id){
-                    $scope.latestMomentId = response.data[0].id;
-                    var moments = {"rows" : [], "momentsFileUpdated" : momentsFileUpdated};                           
+                   
+                   var moments = {"rows" : [], "momentsFileUpdated" : momentsFileUpdated};                           
                     for(i=0; i<response.data.length; i++){
                         var buildArray = {};  
                         buildArray["id"] = response.data[i].id;
                         response.data[i].text = response.data[i].text.replace('<Strong>Lancs','<Strong class="teamLancs"> Lancs');
                         response.data[i].text = response.data[i].text.replace('<Strong>York','<Strong class="teamYork"> York');
+                        if(response.data[i].text.length > 193){
+                            response.data[i].text = response.data[i].text.substring(0, 190) + "...";
+                        }
                         buildArray["text"] = response.data[i].text
                         buildArray["updated_at"] = response.data[i].updated_at;
                         buildArray["type"] = response.data[i].live_moment_type.name;
@@ -345,8 +419,6 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
                     
                     socket.emit('momentsUpdated', moments);
                     
-                    $scope.latestMomentId = moments.rows[0].id;
-                    
                     for(i=0; i<moments.rows.length; i++){
                         // Here we add any moment type specific info
                         if(moments.rows[i].type == "Tweet"){
@@ -372,6 +444,7 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
                 
                     //console.log($scope.moments);
                     if($scope.moments.MomentsAlreadyTicking == undefined){
+                        $scope.currentMomentId = $scope.moments.rows[0].id;
                         $interval(rotateMoments, momentsSwapTickInterval);
                         $scope.moments.MomentsAlreadyTicking = true;
                     } else {

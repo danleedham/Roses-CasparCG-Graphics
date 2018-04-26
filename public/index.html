@@ -47,6 +47,10 @@
                     <h1>#Roses2018</h1>
                 </div> 
             </div>
+            <div id="emptySpace">
+                    <div class="teamLancsInverse" style="width:{{lancsWidth}}">{{lancsScore}}</div>
+                    <div class="teamYorkInverse" style="width:{{yorkWidth}}">{{yorkScore}}</div>
+            </div>
         </div>
        
         <div ng-controller="bottomRightCtrl">
@@ -56,7 +60,8 @@
                     <div class="row animate-repeat bouncy-slide-left" ngif="bottomRight.currentSport == row.sport" ng-repeat="row in bottomRight.rows | filter: { sport: bottomRight.currentSport }">
                         <div class="fixtureGroup">{{ row.group }}</div>
                         <div class="fixtureTime">{{ row.time }}</div>
-                        <div class="fixtureDay">{{ row.day }}</div>
+                        <div ng-if="bottomRight.limitToToday !== true" class="fixtureDay">{{ row.day }}</div>
+                        <div ng-if="bottomRight.limitToToday == true" class="fixtureDay">{{ row.points }}pts</div>
                         <div class="fixturePoints">{{ row.points }}</div>
                     </div>
                     <div class="bottomRightImage">
@@ -99,8 +104,6 @@
       
         <div ng-controller="tickerCtrl">   
             <div id="marquee"></div>
-            
-            <div id="emptySpace"></div>
         </div>
         <script type="text/javascript" src="/js/cg.js"></script>
     

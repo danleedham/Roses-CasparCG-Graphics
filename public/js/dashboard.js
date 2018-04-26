@@ -124,7 +124,7 @@ app.controller('bottomRightCGController', ['$scope', 'socket', '$http', 'localSt
 
         $scope.showAllFixtures = function(){
             console.log("showAllFixtures");
-            socket.emit('bottomRightshowAllFixtures', "showAllFixtures");
+            socket.emit('bottomRightshowAllFixtures', $scope.bottomRight);
         };
         
         $scope.applyImageOverride = function() {
