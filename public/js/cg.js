@@ -15,6 +15,7 @@ app.controller('topRightCtrl', ['$scope', '$timeout', 'socket',
         
         // Start the timer
         $timeout(tick, $scope.tickInterval);
+        tick();
     }
 ]);
 

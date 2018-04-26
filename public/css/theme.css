@@ -147,25 +147,22 @@ strong {
 #topRightBox .time h1, #topRightBox .date h1, #topRightBox .subTitle h1 {
     color: white;
     text-align: center;
-    position: absolute;
-    width: 240px;
 }
 
 #topRightBox .time h1 {
     font-size: 28px;
-    top: 28px;
     text-transform: lowercase;
+    margin-top: 20px;
+    margin-bottom: 3px;
 }
 
 #topRightBox .date h1 {
     font-size: 18px;
-    top: 52px;
     line-height: 24px;
 }
 
 #topRightBox .subTitle h1 {
     font-size: 16px;
-    top: 76px;
     line-height: 24px;
 }
 
