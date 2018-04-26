@@ -425,44 +425,77 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
 // Ticker Things
 app.controller('tickerCtrl', ['$scope', '$interval', '$http', 'socket', '$sce',
     function($scope, $interval, $http, socket, $sce){
-        var $seperatorBuilder = function() {
-            const $seperator = document.createElement('span');
-            $seperator.className = "marquee-seperator";
-            $seperator.innerHTML = "&nbsp";
-            return $seperator;
-        };
-        function createMarquee() {
-            var $marquee = document.getElementById('marquee');
-            var marquee = window.m = new dynamicMarquee.Marquee($marquee, { rate: -75 });
-            return dynamicMarquee.loop(marquee);
-        }
-
-        $scope.ticker = {$rowBuilders:[], grabThisMany: 10, unconfirmedFixtures: true};
-        $scope.tickerCheckTickInterval = 10000;
-        var control = createMarquee();
         
-        function updateMarquee() {
-            // TODO use $.watch
-            items = [
-                function() {
+        function createMarquee() {
+            function appendItem(immediate) {
+                function buildSeperator() {
+                    const $seperator = document.createElement('span');
+                    $seperator.className = "marquee-seperator";
+                    $seperator.innerHTML = "&nbsp";
+                    return $seperator;
+                };
+                
+                function buildHeader() {
                     var $header = document.createElement('span');
                     $header.className = "tickerHeader";
-                    $header.innerText = $scope.ticker.tickerHeader;
+                    $header.innerText = $scope.ticker.header;
                     return $header;
                 }
-            ];
-            $scope.ticker.$rowBuilders.forEach(function($builder, i) {
-                items.push(function() {
-                    var $container = document.createElement('span');
-                    if (i > 0) {
-                        $container.appendChild($seperatorBuilder());
-                    }
-                    $container.appendChild($builder());
-                    return $container;
-                });
-            });
-            control.update(items);
+                
+                var records = $scope.ticker.records;
+                if (!records.length) {
+                    return;
+                }
+                var limit = $scope.ticker.grabThisMany;
+                var includeUnconfirmed = $scope.ticker.unconfirmedFixtures;
+                var filteredRecords = records.filter(function(record) {
+                    return includeUnconfirmed || record.confirmed === "Y";
+                }).reverse().slice(0, limit);
+
+                var nextIndex = immediate ? (filteredRecords.indexOf(lastRecord) + 1) % filteredRecords.length : 0;
+                var record = lastRecord = filteredRecords[nextIndex];
+                var timetableData = record.timetable_data;
+
+                var $container = document.createElement('span');
+                if (nextIndex === 0) {
+                    $container.appendChild(buildHeader());
+                } else {
+                    $container.appendChild(buildSeperator());
+                }
+
+                var $winner = document.createElement('span');
+                if (record.winner == "L"){
+                    $winner.className = "teamLancsInverse";
+                    $winner.innerText = "Lancs";
+                } else {
+                    $winner.className = "teamYorkInverse";
+                    $winner.innerText = "York";
+                }
+                var $scoreEl = $("<span />");
+                $scoreEl.append($("<span />").text(timetableData.team.sport.title + " " + timetableData.team.title + " "));
+                $scoreEl.append($winner);
+                $scoreEl.append($("<span />").text(" " + record.lancs_score + '-' +  record.york_score + " (" + record.points + "pts)"));
+                $container.appendChild($scoreEl[0]);
+            
+                marquee.appendItem($container);
+            }
+
+            var $marquee = document.getElementById('marquee');
+            var marquee = window.m = new dynamicMarquee.Marquee($marquee, { rate: -75 });
+            var lastRecord = null;
+
+            marquee.onItemRequired(function() { appendItem(true) });
+
+            $scope.$watch('ticker', function() {
+                if (marquee.isWaitingForItem()) {
+                    appendItem(false);
+                }
+            }, true);
         }
+
+        $scope.ticker = {records: [], recordsById: {}, grabThisMany: 10, unconfirmedFixtures: true, header: 'Latest Scores'};
+        $scope.tickerCheckTickInterval = 10000;
+        createMarquee();
         
         var fetchTickerScores = function () {
             var config = {headers:  {
@@ -479,89 +512,65 @@ app.controller('tickerCtrl', ['$scope', '$interval', '$http', 'socket', '$sce',
                 if(isNaN(response.data[0].id) || isNaN(response.data[0].id)){
                     console.log("Roses live is giving us nonsense. Typical.");
                     return;
-                } else { 
-                 
-                    var tickerFileUpdated = new Date(response.headers('Last-Modified'));      
+                } else {    
 
-                    // Only do anything if the file has bene updated since we last updated it
-                    if(!$scope.ticker.tickerFileUpdated || tickerFileUpdated >= $scope.ticker.tickerFileUpdated) {
-                        $scope.ticker.tickerFileUpdated = tickerFileUpdated;
-                        // Sort Array so we're getting the most recent content       
-                        response.data.sort(function(a, b){
-                            var keyA = new Date(a.updated_at),
-                                keyB = new Date(b.updated_at);
-                            // Compare the 2 dates
-                            if(keyA < keyB) return -1;
-                            if(keyA > keyB) return 1;
-                            return 0;
-                        });
+                    // Sort Array so it's in time ascending order
+                    response.data.sort(function(a, b){
+                        var keyA = new Date(a.updated_at),
+                            keyB = new Date(b.updated_at);
+                        // Compare the 2 dates
+                        if(keyA < keyB) return -1;
+                        if(keyA > keyB) return 1;
+                        return 0;
+                    });
 
-                        var rows = [];
-                        response.data.forEach(function(responseItem) {
-                            // Choose whether or not to display unconfirmed fixtures
-                            if($scope.ticker.unconfirmedFixtures || responseItem.confirmed === "Y") {
-                                var timetableData = null;
-                                timetable.data.some(function(entry) {
-                                    if (entry.id == responseItem.timetable_entry_id) {
-                                        timetableData = entry;
-                                        return true;
-                                    }
-                                    return false;
-                                });
-                                if (!timetableData) {
-                                    console.error('Missing timetable data', responseItem);
-                                    return;
-                                }
-                                rows.push({
-                                    id: responseItem.id,
-                                    lancs_score: responseItem.lancs_score,
-                                    york_score: responseItem.york_score,
-                                    winner: responseItem.winner,
-                                    timetable_entry_id: responseItem.timetable_entry_id,
-                                    confirmed: responseItem.confirmed,
-                                    points: parseInt(responseItem.lancs_points) + parseInt(responseItem.york_points),
-                                    timetable_data: timetableData 
-                                });
+                    var records = $scope.ticker.records;
+                    var recordsById = $scope.ticker.recordsById;
+
+                    response.data.forEach(function(responseItem) {
+                        var timetableData = null;
+                        timetable.data.some(function(entry) {
+                            if (entry.id == responseItem.timetable_entry_id) {
+                                timetableData = entry;
+                                return true;
                             }
+                            return false;
                         });
+                        if (!timetableData) {
+                            console.error('Missing timetable data', responseItem);
+                            return;
+                        }
 
-                        // The ticker header is to be displayed ahead of the scores, like 'Breaking News'
-                        $scope.ticker.tickerHeader = $scope.ticker.overrideHeader || "Latest Scores";
-                        $scope.ticker.$rowBuilders = rows.slice(0, $scope.ticker.grabThisMany).map(function(row) {
-                            var timetableData = row.timetable_data;
-                            var $builder = function() {
-                                var $winner = document.createElement('span');
-                                if (row.winner == "L"){
-                                    $winner.className = "teamLancsInverse";
-                                    $winner.innerText = "Lancs";
-                                } else {
-                                    $winner.className = "teamYorkInverse";
-                                    $winner.innerText = "York";
-                                }
-
-                                var $scoreEl = $("<span />");
-                                $scoreEl.append($("<span />").text(timetableData.team.sport.title + " " + timetableData.team.title + " "));
-                                $scoreEl.append($winner);
-                                $scoreEl.append($("<span />").text(" " + row.lancs_score + '-' +  row.york_score + " (" + row.points + "pts)"));
-                                return $scoreEl[0];
-                            }
-                            return $builder;
-                        });
-                        // console.log($scope.ticker.$rowBuilders);
-                        updateMarquee();
+                        var newRecord = {
+                            id: responseItem.id,
+                            lancs_score: responseItem.lancs_score,
+                            york_score: responseItem.york_score,
+                            winner: responseItem.winner,
+                            timetable_entry_id: responseItem.timetable_entry_id,
+                            confirmed: responseItem.confirmed,
+                            points: parseInt(responseItem.lancs_points) + parseInt(responseItem.york_points),
+                            timetable_data: timetableData,
+                            updated_at: responseItem.updated_at 
+                        };
                         
-                    } else {
-                        //console.log("The scores file hasn't changed since we last did anything");
-                    }                             
-                }              
+                        if (recordsById[responseItem.id]) {
+                            // update existing item. not replacing object because this would change reference and
+                            // break marquee tracking
+                            Object.assign(recordsById[responseItem.id], newRecord);
+                        } else {
+                            // new item
+                            records.push(newRecord);
+                            recordsById[responseItem.id] = newRecord;
+                        }
+                    });  
                 }
-          );
+            });
         };
 
         socket.on("ticker", function (msg) {
-            $scope.ticker.grabThisMany = msg.grabThisMany;
-            $scope.ticker.overrideHeader = msg.overrideHeader;
-            $scope.ticker.unconfirmedFixtures = msg.unconfirmedFixtures;
+            $scope.ticker.grabThisMany = msg.grabThisMany || 10;
+            $scope.ticker.header = msg.overrideHeader || 'Latest Scores';
+            $scope.ticker.unconfirmedFixtures = typeof msg.unconfirmedFixtures === 'boolean' ? msg.unconfirmedFixtures : true;
             fetchTickerScores();
         });
         

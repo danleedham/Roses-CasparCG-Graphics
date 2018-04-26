@@ -1,5 +1,6 @@
 var express 	= require('express'),
 	http 		= require('http'),
+	path		= require('path')
 	Stopwatch 	= require('./models/stopwatch');
 
 var app = express();
@@ -142,6 +143,7 @@ io.on('connection', function(socket) {
 
 //Serve the puplic dir
 app.use(express.static(__dirname + "/public"));
+app.use(express.static(path.dirname(require.resolve('dynamic-marquee'))));
 
 
 server.listen(3001);
