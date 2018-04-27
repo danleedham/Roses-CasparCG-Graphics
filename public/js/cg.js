@@ -103,7 +103,7 @@ app.controller('bottomRightCtrl', ['$scope', '$interval', '$http', 'socket',
                 }
                 
                 $scope.bottomRight.limitToToday = msg.limitToToday;
-                $scope.bottomRight.showEventScores = msg.showEventScores;
+                $scope.bottomRight.hideEventScores = msg.hideEventScores;
                 if(msg.header !== ""){
                     $scope.bottomRight.header = msg.header;
                     $scope.bottomRight.showUserHeader = true;
@@ -116,7 +116,7 @@ app.controller('bottomRightCtrl', ['$scope', '$interval', '$http', 'socket',
 
         socket.on("bottomRightshowAllFixtures", function(msg){
             $scope.bottomRight.limitToToday = msg.limitToToday;
-            $scope.bottomRight.showEventScores = msg.showEventScores;
+            $scope.bottomRight.hideEventScores = msg.hideEventScores;
             if(msg.header !== ""){
                 $scope.bottomRight.header = msg.header;
                 $scope.bottomRight.showUserHeader = true;
