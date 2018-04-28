@@ -120,20 +120,14 @@ strong {
 }
 
 .teamLancsInverse {
-    background-color: #b5121b;
-    color: white;
+    background-color: #b5121b !important;
 }
 
 .teamYorkInverse {
-    background-color: #efbb39;
-    color: white;
+    background-color: #efbb39 !important;
 }
 
-.teamLancsInverse, .teamYorkInverse {
-    margin-left: 12px;
-    margin-right: 12px;
-    padding-left: 12px;
-    padding-right: 12px;
+.fixturesDraw {
 }
 
 .disableButton {
@@ -192,7 +186,6 @@ strong {
     width: calc(100% - 12px);
     margin-bottom: 6px;
     background-color: #BC204B;
-    
 }
 
 #bottomRightBox .fixtureGroup {
@@ -203,6 +196,11 @@ strong {
     background-color: white;
     padding: 6px;
     border-radius: 0px 0px 10px;
+}
+
+#bottomRightBox .confirmedResult{
+    color: white !important;
+    background-color: #1f1a34 !important;
 }
 
 #bottomRightBox .fixtureTime,  #bottomRightBox .fixtureDay, #bottomRightBox .fixturePoints  {
@@ -222,6 +220,7 @@ strong {
 
 #bottomRightBox .fixturePoints,  #bottomRightBox .fixtureDay {
     display: none; /* This will be changed dynamically in index.html */
+    font-weight: bold;
 }
 
 .bottomRightImage {
@@ -229,6 +228,9 @@ strong {
     position: absolute;
 }
 
+#bottomRight .teamYorkInverse, #bottomRight .teamYorkInverse{
+
+}
 
 
 /**************************************************/
@@ -318,6 +320,14 @@ strong {
     margin-right: 12px;
     margin-left: 12px;
     width: 0;
+}
+
+#marquee .teamLancsInverse, #marquee .teamYorkInverse {
+    margin-left: 12px;
+    margin-right: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+    color: white;
 }
 
 /**************************************************/

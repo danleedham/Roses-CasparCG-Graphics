@@ -57,12 +57,11 @@
             <div id="bottomRightBox">
                 <div class="rowContainer">
                     <h1>{{bottomRight.currentSport}}</h1>
-                    <div class="row animate-repeat bouncy-slide-left" ngif="bottomRight.currentSport == row.sport" ng-repeat="row in bottomRight.rows | filter: { sport: bottomRight.currentSport }">
-                        <div class="fixtureGroup">{{ row.group }}</div>
-                        <div class="fixtureTime">{{ row.time }}</div>
-                        <div ng-if="bottomRight.limitToToday !== true" class="fixtureDay">{{ row.day }}</div>
-                        <div ng-if="bottomRight.limitToToday == true" class="fixtureDay">{{ row.points }}pts</div>
-                        <div class="fixturePoints">{{ row.points }}</div>
+                    <div class="row animate-repeat bouncy-slide-left {{ row.bgcolor }}" ngif="bottomRight.currentSport == row.sport" ng-repeat="row in bottomRight.rows | filter: { sport: bottomRight.currentSport }">
+                        <div class="fixtureGroup {{row.resultColor}}">{{ row.group }}</div>
+                        <div class="fixtureTime {{ row.bgcolor }}">{{ row.time }}</div>
+                        <div ng-if="bottomRight.limitToToday !== true" class="fixtureDay {{ row.bgcolor }}">{{ row.day }}</div>
+                        <div ng-if="bottomRight.limitToToday == true" class="fixtureDay {{ row.bgcolor }}">{{ row.points }}pts</div>
                     </div>
                     <div class="bottomRightImage">
                         <!-- <img ng-src="images/bottomRight/{{bottomRight.chosenSport}}.jpg" /> -->
