@@ -77,7 +77,7 @@ h1, h2, h3, h4 {
     right: 0px;
     width: 240px;
     height: 540px;
-    background-color: #a9a9a9;
+    background: linear-gradient(135deg, #eee, #a9a9a9);
     padding-top: 12px;
     border-top: 2px solid white;
 }

@@ -1,8 +1,8 @@
-# Roses Graphics
+# Roses Studio News Graphics
 
- ## General
- General gives you access to control the RosesLive logo, and the 'bug' in the top left.
- 'Bug' refers to the clock and 'Live' display. It can also show locations.
+ ## Admin
+
+To access the admin side of the application point a web browser to: ```	http://127.0.0.1:3001/admin```
 
  ## Lower Thirds
  These are the things which appear at the bottom of the screen, often used to show people's names when being interviewed.
