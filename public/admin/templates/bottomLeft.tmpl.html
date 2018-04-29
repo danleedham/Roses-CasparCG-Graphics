@@ -27,7 +27,12 @@
             <br /><br />
             <input  type="text" placeholder="Two lines of text" ng-model="bottomLeft.overrideText">
             <br /><br />
-             <checkbox ng-model="bottomLeft.momentOverride" style="margin-right:10px;" size="large" type="toggle">Override with above content</checkbox>
+            <div class="ui small buttons">
+                <div class="ui positive button" ng-click="showManualMoment()" >What I want to say is important</div>
+            </div>
+            <div class="ui small buttons">
+                <div class="ui negative button" ng-click="hideManualMoment()" >No one cares anymore</div>
+            </div>
         </div>
     </div>
 </div>	

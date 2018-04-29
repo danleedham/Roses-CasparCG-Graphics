@@ -127,20 +127,6 @@ app.controller('bottomRightCGController', ['$scope', 'socket', '$http', 'localSt
             socket.emit('bottomRightshowAllFixtures', $scope.bottomRight);
         };
         
-        $scope.applyImageOverride = function() {
-            $scope.bottomRight.imageOveride = true;
-            socket.emit('bottomRight:applyimage', $scope.bottomRight);
-            //console.log('Apply Image');
-            // console.log($scope.bottomRight); // debugging
-        };
-        
-        $scope.hideImageOverride = function() {
-            $scope.bottomRight.imageOveride = false;
-            socket.emit('bottomRight:hideimage', $scope.bottomRight);
-            // console.log('Hide Image'); 
-            // console.log($scope.bottomRight)// debugging
-        };
-        
         $scope.locationChosen = function() {
             $scope.updateSelectables($scope.bottomRight.chosenLocation)
         }
@@ -280,11 +266,6 @@ app.controller('bottomLeftCGController', ['$scope', 'socket', 'localStorageServi
 
         // Grab current moments, first time it loads. 
         socket.emit("pleaseSendMoments");
-        
-        socket.on("bottomLeft", function (msg) {
-            // $scope.bottomLeft = msg;
-
-        });
 
         $scope.$watch('bottomLeft', function() {
             if ($scope.bottomLeft) {
@@ -309,6 +290,15 @@ app.controller('bottomLeftCGController', ['$scope', 'socket', 'localStorageServi
         $scope.show = function(momentid) {
             socket.emit("bottomLeftOverride", momentid);
             console.log(momentid);
+        };
+
+        $scope.showManualMoment = function() {
+            socket.emit("bottomLeftManualMoment", $scope.bottomLeft);
+            console.log($scope.bottomLeft);
+        };
+
+        $scope.hideManualMoment = function() {
+            socket.emit("bottomLeftManualMoment", "hide");
         };
 
         $scope.hideOverridden = function(){

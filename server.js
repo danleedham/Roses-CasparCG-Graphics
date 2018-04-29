@@ -81,6 +81,10 @@ io.on('connection', function(socket) {
 		io.sockets.emit("bottomLeftOverride", msg);
 	});
 
+	socket.on("bottomLeftManualMoment", function(msg) {
+		io.sockets.emit("bottomLeftManualMoment", msg);
+	});
+
 	socket.on("bottomLeftRemove", function(msg) {
 		io.sockets.emit("bottomLeftRemove", msg);
 	});
@@ -107,14 +111,6 @@ io.on('connection', function(socket) {
 
     socket.on("bottomRight:get", function(msg) {
 		io.sockets.emit("bottomRight", bottomRight);
-	});
-
-	socket.on("bottomRight:applyimage", function(msg) {
-		io.sockets.emit("bottomRight", msg);
-	});
-
-	socket.on("bottomRight:hideimage", function(msg) {
-		io.sockets.emit("bottomRight", "hideimage");
 	});
 
 	socket.on("bottomRightLimitToChosen", function(msg) {

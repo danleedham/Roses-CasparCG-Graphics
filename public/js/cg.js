@@ -310,8 +310,8 @@ app.controller('bottomRightCtrl', ['$scope', '$interval', '$http', 'socket',
 // Bottom Left Moments
 app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sce',
     function($scope, $interval, $http, socket, $sce){
-        var momentsCheckTickInterval = 63000; // Allow this to be set
-        var momentsSwapTickInterval = 10000;  // Allow this to be set 
+        var momentsCheckTickInterval = 63000; // Allow this to be set?
+        var momentsSwapTickInterval = 10000;  // Allow this to be set?
         $scope.bottomLeft = { momentOverride: false, overrideHeader: "", overrideText:"", ignoreMoments: [] };        
         $scope.moments = {"rows":[], "momentsFileUpdated" : ""};
  
@@ -368,9 +368,22 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
                 }
             }
         });
+
+        socket.on("bottomLeftManualMoment", function (msg) {
+            console.log(msg);
+            if(msg == "hide"){
+                $scope.bottomLeft.momentOverride = false;
+                // console.log("Stopping Override");
+            } else {
+                $scope.bottomLeft.overrideHeader = msg.overrideHeader;
+                $scope.bottomLeft.overrideText = $sce.trustAsHtml(msg.overrideText);
+                $scope.bottomLeft.momentOverride = true;
+            }
+        });
         
+        // Function for fetching and setting moments
         function fetchMoments() {
-            // console.log("Fetching Moments");
+            //console.log("Fetching Moments");
             var config = {headers:  {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
@@ -386,7 +399,7 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
                 var momentsFileUpdated = new Date(response.headers('Last-Modified'));
                 // Check to see if the file has updated
                 if(momentsFileUpdated > $scope.moments.momentsFileUpdated){
-                   console.log("We got new moments!");
+                   // console.log(response);
                    
                 // Sort Array so we're getting the most recent content 
                 response.data.sort(function(a, b){
