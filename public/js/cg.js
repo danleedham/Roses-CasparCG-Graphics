@@ -390,35 +390,41 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
                 }
             };
 
-          $http.get('data/feed_example.json', config).then(function(response) {
+          $http.get('https://roseslive.co.uk/feed.json', config).then(function(response) {
               if(isNaN(response.data[0].id) || isNaN(response.data[0].id)){
                 console.log("Roses live is giving us nonsense");
                 return;
               } else { 
-
-                var momentsFileUpdated = new Date(response.headers('Last-Modified'));
+                
+                
                 // Check to see if the file has updated
-                if(momentsFileUpdated > $scope.moments.momentsFileUpdated){
-                   // console.log(response);
+                // var momentsFileUpdated = new Date(response.headers('Last-Modified'));
+                // if(momentsFileUpdated > $scope.moments.momentsFileUpdated){
                    
-                // Sort Array so we're getting the most recent content 
-                response.data.sort(function(a, b){
-                    var keyA = new Date(a.updated_at),
-                        keyB = new Date(b.updated_at);
-                    // Compare the 2 dates
-                    if(keyA < keyB) return 1;
-                    if(keyA > keyB) return -1;
-                    return 0;
-                });
+                if($scope.mostRecentMomentId !== response.data[0].id){
+            
+                    var mostRecentMomentId = response.data[0].id;
+                    $scope.mostRecentMomentId = mostRecentMomentId;
+                    // Sort Array so we're getting the most recent content 
+                    response.data.sort(function(a, b){
+                        var keyA = new Date(a.updated_at),
+                            keyB = new Date(b.updated_at);
+                        // Compare the 2 dates
+                        if(keyA < keyB) return 1;
+                        if(keyA > keyB) return -1;
+                        return 0;
+                    });
                    
-                   var moments = {"rows" : [], "momentsFileUpdated" : momentsFileUpdated};                           
+                   var moments = {"rows" : [], "mostRecentMomentId" : mostRecentMomentId};                           
                     for(i=0; i<response.data.length; i++){
                         var buildArray = {};  
                         buildArray["id"] = response.data[i].id;
-                        response.data[i].text = response.data[i].text.replace('<Strong>Lancs','<Strong class="teamLancs"> Lancs');
-                        response.data[i].text = response.data[i].text.replace('<Strong>York','<Strong class="teamYork"> York');
-                        if(response.data[i].text.length > 193){
-                            response.data[i].text = response.data[i].text.substring(0, 190) + "...";
+                        if(response.data[i].text !== null){
+                            response.data[i].text = response.data[i].text.replace('<Strong>Lancs','<Strong class="teamLancs"> Lancs');
+                            response.data[i].text = response.data[i].text.replace('<Strong>York','<Strong class="teamYork"> York');
+                            if(response.data[i].text.length > 193){
+                                response.data[i].text = response.data[i].text.substring(0, 190) + "...";
+                            }
                         }
                         buildArray["text"] = response.data[i].text
                         buildArray["updated_at"] = response.data[i].updated_at;
@@ -441,7 +447,7 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
                         }
 
                         // Method for ignoing moments by type 
-                        if(buildArray["type"] !== "General Commentary" ){
+                        if(buildArray["type"] !== "General Commentary" && buildArray["type"] !== "Image" && buildArray["type"] !== "Link"){
                             moments.rows.push(buildArray);
                         } 
                     }
@@ -482,10 +488,12 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
                     } else {
                         // console.log("Already ticking");
                     }
-
                 } else {
+                    console.log("Latest Moment already scraped");
+                }
+                //} else {
                     //console.log("No new Moments");
-                }               
+                //}               
                
               }              
         
