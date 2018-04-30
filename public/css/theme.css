@@ -27,6 +27,12 @@ h1, h2, h3, h4 {
 /*              [Layout]                          */
 /**************************************************/
 
+#sixteenNine {
+    width: 1280px;
+    height: 720px;
+    overflow: hidden;
+    position: absolute;
+}
 
 .float-left {
     float: left;
@@ -290,7 +296,7 @@ strong {
 /**************************************************/
 
 #marquee {
-    position: fixed;
+    position: absolute;
     overflow: hidden;
     margin: 0;
     font-size: 24px;

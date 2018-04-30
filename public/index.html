@@ -30,79 +30,81 @@
     </head>
 
     <body>
-        <div id="screenBox">
-            <div id="txAreaBox"></div>
-        </div>
-            
-        <div ng-controller="topRightCtrl">         
-            <div id="topRightBox">
+        <div id="sixteenNine">
+            <div id="screenBox">
+                <div id="txAreaBox"></div>
+            </div>
+                
+            <div ng-controller="topRightCtrl">         
+                <div id="topRightBox">
 
-                <div class="time">                     
-                    <h1>{{clock | date: "h:mma"}}</h1>
-                </div>
-                <div class="date">                     
-                    <h1>{{clock | date: "EEEE dd MMMM "}}</h1>
-                </div>
-                <div class="subTitle">
-                    <h1>#Roses2018</h1>
-                </div> 
-            </div>
-            <div id="emptySpace">
-                    <div class="teamLancsInverse" style="width:{{lancsWidth}}">{{lancsScore}}</div>
-                    <div class="teamYorkInverse" style="width:{{yorkWidth}}">{{yorkScore}}</div>
-            </div>
-        </div>
-       
-        <div ng-controller="bottomRightCtrl">
-            <div id="bottomRightBox">
-                <div class="rowContainer">
-                    <h1>{{bottomRight.currentSport}}</h1>
-                    <div class="row animate-repeat bouncy-slide-left {{ row.bgcolor }}" ngif="bottomRight.currentSport == row.sport" ng-repeat="row in bottomRight.rows | filter: { sport: bottomRight.currentSport }">
-                        <div class="fixtureGroup {{row.resultColor}}">{{ row.group }}</div>
-                        <div class="fixtureTime {{ row.bgcolor }}">{{ row.time }}</div>
-                        <div ng-if="bottomRight.limitToToday !== true" class="fixtureDay {{ row.bgcolor }}">{{ row.day }}</div>
-                        <div ng-if="bottomRight.limitToToday == true" class="fixtureDay {{ row.bgcolor }}">{{ row.points }}pts</div>
+                    <div class="time">                     
+                        <h1>{{clock | date: "h:mma"}}</h1>
                     </div>
-                    <div class="bottomRightImage">
-                        <!-- <img ng-src="images/bottomRight/{{bottomRight.chosenSport}}.jpg" /> -->
+                    <div class="date">                     
+                        <h1>{{clock | date: "EEEE dd MMMM "}}</h1>
                     </div>
+                    <div class="subTitle">
+                        <h1>#Roses2018</h1>
+                    </div> 
+                </div>
+                <div id="emptySpace">
+                        <div class="teamLancsInverse" style="width:{{lancsWidth}}">{{lancsScore}}</div>
+                        <div class="teamYorkInverse" style="width:{{yorkWidth}}">{{yorkScore}}</div>
                 </div>
             </div>
-        </div>
         
-        <div ng-controller="bottomLeftCtrl">         
+            <div ng-controller="bottomRightCtrl">
+                <div id="bottomRightBox">
+                    <div class="rowContainer">
+                        <h1>{{bottomRight.currentSport}}</h1>
+                        <div class="row animate-repeat bouncy-slide-left {{ row.bgcolor }}" ngif="bottomRight.currentSport == row.sport" ng-repeat="row in bottomRight.rows | filter: { sport: bottomRight.currentSport }">
+                            <div class="fixtureGroup {{row.resultColor}}">{{ row.group }}</div>
+                            <div class="fixtureTime {{ row.bgcolor }}">{{ row.time }}</div>
+                            <div ng-if="bottomRight.limitToToday !== true" class="fixtureDay {{ row.bgcolor }}">{{ row.day }}</div>
+                            <div ng-if="bottomRight.limitToToday == true" class="fixtureDay {{ row.bgcolor }}">{{ row.points }}pts</div>
+                        </div>
+                        <div class="bottomRightImage">
+                            <!-- <img ng-src="images/bottomRight/{{bottomRight.chosenSport}}.jpg" /> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            <div ng-show="bottomLeft.momentOverride"> 
-                <div id="bottomLeftBox">   
-                    <div class="header">                 
-                        <h1>{{bottomLeft.overrideHeader}}</h1>
+            <div ng-controller="bottomLeftCtrl">         
+                
+                <div ng-show="bottomLeft.momentOverride"> 
+                    <div id="bottomLeftBox">   
+                        <div class="header">                 
+                            <h1>{{bottomLeft.overrideHeader}}</h1>
+                        </div>
                     </div>
-                </div>
-                <div id="bottomCenterBox">
-                    <div class="description">                     
-                        <h1 ng-bind-html="bottomLeft.overrideText"></h1>
+                    <div id="bottomCenterBox">
+                        <div class="description">                     
+                            <h1 ng-bind-html="bottomLeft.overrideText"></h1>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            
+            <div ng-controller="bottomLeftCtrl">                  
+                <div class="animate-repeat" ng-hide="bottomLeft.momentOverride" ng-repeat="moment in moments.rows | filter: { id: currentMomentId }"> 
+                    <div id="bottomLeftBox">   
+                        <div class="header">                 
+                            <h1>{{moment.header}}</h1>
+                        </div>
+                    </div>
+                    <div id="bottomCenterBox">
+                        <div class="description">                     
+                            <h1 ng-bind-html="moment.content"></h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
         
-        <div ng-controller="bottomLeftCtrl">                  
-            <div class="animate-repeat" ng-hide="bottomLeft.momentOverride" ng-repeat="moment in moments.rows | filter: { id: currentMomentId }"> 
-                <div id="bottomLeftBox">   
-                    <div class="header">                 
-                        <h1>{{moment.header}}</h1>
-                    </div>
-                </div>
-                <div id="bottomCenterBox">
-                    <div class="description">                     
-                        <h1 ng-bind-html="moment.content"></h1>
-                    </div>
-                </div>
+            <div ng-controller="tickerCtrl">   
+                <div id="marquee"></div>
             </div>
-        </div>
-      
-        <div ng-controller="tickerCtrl">   
-            <div id="marquee"></div>
         </div>
         <script type="text/javascript" src="/js/cg.js"></script>
     
