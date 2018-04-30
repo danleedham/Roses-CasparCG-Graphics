@@ -68,15 +68,6 @@ io.on('connection', function(socket) {
 	 * 		Bottom Left Moments
 	 */
 
-	socket.on("bottomLeft", function(msg) {
-        bottomLeft = msg;
-		io.sockets.emit("bottomLeft", msg);
-	});
-
-    socket.on("bottomLeft:get", function(msg) {
-		io.sockets.emit("bottomLeft", bottomLeft);
-	});
-
 	socket.on("bottomLeftOverride", function(msg) {
 		io.sockets.emit("bottomLeftOverride", msg);
 	});

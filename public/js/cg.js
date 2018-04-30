@@ -334,7 +334,7 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
                 }
             }
             console.log($scope.bottomLeft.ignoreMoments);
-            $scope.fetchMoments();       
+            fetchMoments();       
         });
 
         socket.on("bottomLeftReturn", function (momentid) {
