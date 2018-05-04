@@ -162,21 +162,22 @@ app.controller('bottomRightCtrl', ['$scope', '$interval', '$http', 'socket',
                 
                 var todaysDate = new Date();
             
-                Promise.all([$http.get('data/results_example.json', config), $http.get('data/timetable_entries_example.json', config)]).then(function(values) {
+                Promise.all([$http.get('http://localhost:1337/api/v1/roses/results', config), $http.get('http://localhost:1337/api/v1/roses/timetable_entries', config)]).then(function(values) {
  
                     var scoresResponse = values[0];  
                     var response = values[1];  
                    
                     var daysOfWeek = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-                    if($scope.bottomRight.fixturesFileUpdated == undefined){
-                        $scope.bottomRight.fixturesFileUpdated = new Date("01/01/1970");
+                    if($scope.bottomRight.resultsFileUpdated == undefined){
+                        $scope.bottomRight.resultsFileUpdated = "";
                     }
                     // Need to do a check here to see if the data has changed, if so then carry on cowboy. 
-                    var fixturesFileUpdated = new Date(response.headers('Last-Modified'));
-                                        
-                    if(fixturesFileUpdated > $scope.bottomRight.fixturesFileUpdated || $scope.bottomRight.overrideCheck == true) {
+                    var resultsFileUpdated = JSON.stringify(scoresResponse);
+                     
+                    if(resultsFileUpdated !== $scope.bottomRight.resultsFileUpdated || $scope.bottomRight.overrideCheck == true) {
                         // console.log("Fixtures file updated");
-                        $scope.bottomRight.fixturesFileUpdated = fixturesFileUpdated;
+                        $scope.bottomRight.resultsFileUpdated = resultsFileUpdated;
+                        console.log("Results Updated");
                         var newLivebottomRight = {"rows" : []}; 
                     
                         for(var i = 0; i < response.data.length; i++){
@@ -211,9 +212,9 @@ app.controller('bottomRightCtrl', ['$scope', '$interval', '$http', 'socket',
                                 if(scoresResponse.data[j].timetable_entry_id == response.data[i].id){
                                     buildArray["time"] = scoresResponse.data[j].lancs_score + "-" + scoresResponse.data[j].york_score;
                                     buildArray["day"] = scoresResponse.data[j].lancs_score + "-" + scoresResponse.data[j].york_score;
-                                    if(parseFloat(scoresResponse.data[j].lancs_score) > parseFloat(scoresResponse.data[j].york_score)){
+                                    if(scoresResponse.data[j].winner == "L"){
                                         buildArray["bgcolor"] = "teamLancsInverse";
-                                    } else if (parseFloat(scoresResponse.data[j].lancs_score) < parseFloat(scoresResponse.data[j].york_score)){
+                                    } else if (scoresResponse.data[j].winner == "Y"){
                                         buildArray["bgcolor"] = "teamYorkInverse";
                                     }
                                     if(scoresResponse.data[j].confirmed == "Y"){
@@ -617,7 +618,7 @@ app.controller('tickerCtrl', ['$scope', '$interval', '$http', 'socket', '$sce',
                 }
             };
 
-            Promise.all([$http.get('data/results_example.json', config), $http.get('data/timetable_entries_example.json', config)]).then(function(values) {
+            Promise.all([$http.get('http://localhost:1337/api/v1/roses/results', config), $http.get('http://localhost:1337/api/v1/roses/timetable_entries', config)]).then(function(values) {
  
                 var response = values[0];  
                 var timetable = values[1];  
@@ -650,7 +651,7 @@ app.controller('tickerCtrl', ['$scope', '$interval', '$http', 'socket', '$sce',
                             return false;
                         });
                         if (!timetableData) {
-                            console.error('Missing timetable data', responseItem);
+                            // console.error('Missing timetable data', responseItem);
                             return;
                         }
 
