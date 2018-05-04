@@ -434,12 +434,6 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
                         buildArray["author"] = response.data[i].author;
                         buildArray["team_name"] = response.data[i].team_name;
                         
-                        // Grab Twitter Image
-                        if(response.data[i].picture_file !== ""){
-                            buildArray["picture_file"] = response.data[i].picture_file;
-                        } else {
-                            buildArray["picture_file"] = "";
-                        }
                         
                         // If this is to be ignored by user input, then say so
                         if($scope.bottomLeft.ignoreMoments.indexOf(buildArray["id"]) > -1){
@@ -449,8 +443,11 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
                         }
 
                         // Method for ignoing moments by type 
-                        if(buildArray["type"] !== "General Commentary" && buildArray["type"] !== "Image" && buildArray["type"] !== "Link"){
-                            moments.rows.push(buildArray);
+                        if(buildArray["type"] !== "General Commentary" && buildArray["type"] !== "Image" && buildArray["type"] !== "Link" && buildArray["type"] !== "Kick Off"){
+                            if(buildArray["type"] == "Goal" && buildArray["text"] == ""){
+                            } else {
+                                moments.rows.push(buildArray);
+                            }
                         } 
                     }
                     
