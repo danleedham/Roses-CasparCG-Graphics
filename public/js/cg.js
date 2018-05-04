@@ -444,10 +444,17 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
 
                         // Method for ignoing moments by type 
                         if(buildArray["type"] !== "General Commentary" && buildArray["type"] !== "Image" && buildArray["type"] !== "Link" && buildArray["type"] !== "Kick Off"){
-                            if(buildArray["type"] == "Goal" && buildArray["text"] == ""){
+                            if(buildArray["type"] == "Goal" || buildArray["type"] == "Half Time" || buildArray["type"] == "Full Time"){
+                                if(buildArray["text"] == ""){
+
+                                } else {
+                                    buildArray["text"] = buildArray["team_name"] + ' - ' + buildArray["text"];
+                                    moments.rows.push(buildArray);
+                                }
                             } else {
                                 moments.rows.push(buildArray);
                             }
+                            
                         } 
                     }
                     
