@@ -52,8 +52,9 @@ app.controller('topRightCtrl', ['$scope', '$timeout', 'socket', '$http', '$inter
                     var yorkWidth = yorkScore / totalScore;
                     var lancsWidth = lancScore / totalScore;
 
-                    $scope.yorkWidth = (parseFloat(yorkWidth)*100).toFixed(2) + "%";
-                    $scope.lancsWidth = (parseFloat(lancsWidth)*100).toFixed(2) + "%"; 
+                    yorkWidth = (parseFloat(yorkWidth)*100).toFixed(2);
+                    $scope.yorkWidth = yorkWidth + "%";
+                    $scope.lancsWidth = (100 - yorkWidth) + "%"; 
                 }
             }
             );
