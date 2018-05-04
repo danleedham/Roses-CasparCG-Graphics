@@ -434,6 +434,15 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
                         buildArray["author"] = response.data[i].author;
                         buildArray["team_name"] = response.data[i].team_name;
                         
+                        if(Number.isInteger(parseFloat(response.data[i].score_game_lancs)) && Number.isInteger(parseFloat(response.data[i].score_game_york))){
+                            buildArray["score_game_lancs"] = parseInt(response.data[i].score_game_lancs);
+                            buildArray["score_game_york"]  = parseInt(response.data[i].score_game_york);
+                        } else {
+                            buildArray["score_game_lancs"]  = response.data[i].score_game_lancs;
+                            buildArray["score_game_york"]  = response.data[i].score_game_york;
+                        }
+                            
+                        
                         
                         // If this is to be ignored by user input, then say so
                         if($scope.bottomLeft.ignoreMoments.indexOf(buildArray["id"]) > -1){
@@ -444,11 +453,18 @@ app.controller('bottomLeftCtrl', ['$scope', '$interval', '$http', 'socket', '$sc
 
                         // Method for ignoing moments by type 
                         if(buildArray["type"] !== "General Commentary" && buildArray["type"] !== "Image" && buildArray["type"] !== "Link" && buildArray["type"] !== "Kick Off"){
-                            if(buildArray["type"] == "Goal" || buildArray["type"] == "Half Time" || buildArray["type"] == "Full Time"){
-                                if(buildArray["text"] == ""){
+                            if(buildArray["type"] == "Goal" || buildArray["type"] == "Half Time" || buildArray["type"] == "Full Time" || buildArray["type"] == "Score Update"){
+                                if(buildArray["text"] == "" || buildArray["text"] == null || buildArray["score_game_lancs"] == null){
 
                                 } else {
-                                    buildArray["text"] = buildArray["team_name"] + ' - ' + buildArray["text"];
+                                    if(buildArray["type"] == "Goal"){
+                                        buildArray["type"] = "Goal " + ' ' + buildArray["score_game_lancs"] + '-' + buildArray["score_game_york"];
+                                        buildArray["text"] = buildArray["team_name"] + ' - ' + buildArray["text"];
+                                    }  else if (buildArray["type"] == "Score Update" && buildArray["score_game_lancs"] !== null) {
+                                        buildArray["text"] = buildArray["text"] + ' (' + buildArray["score_game_lancs"] + '-' + buildArray["score_game_york"] + ')';
+                                    } else {
+                                        buildArray["text"] = buildArray["team_name"] + ' - ' + buildArray["text"] + ' (' + buildArray["score_game_lancs"] + '-' + buildArray["score_game_york"] + ')';
+                                    }
                                     moments.rows.push(buildArray);
                                 }
                             } else {
